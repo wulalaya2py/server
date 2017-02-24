@@ -52,6 +52,7 @@ use OCP\AppFramework\IAppContainer;
 use OCP\Federation\ICloudIdManager;
 use OCP\Files\IAppData;
 use OCP\Files\Mount\IMountManager;
+use OCP\OCS\IDiscoveryService;
 use OCP\RichObjectStrings\IValidator;
 use OCP\Util;
 
@@ -329,6 +330,9 @@ class DIContainer extends SimpleContainer implements IAppContainer {
 		});
 		$this->registerService(IMountManager::class, function () {
 			return $this->getServer()->getMountManager();
+		});
+		$this->registerService(IDiscoveryService::class, function($c) {
+			return $this->getServer()->getOCSDiscoveryService();
 		});
 
 		// commonly used attributes

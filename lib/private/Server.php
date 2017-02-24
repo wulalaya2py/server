@@ -74,6 +74,7 @@ use OC\Lockdown\LockdownManager;
 use OC\Mail\Mailer;
 use OC\Memcache\ArrayCache;
 use OC\Notification\Manager;
+use OC\OCS\DiscoveryService;
 use OC\Repair\NC11\CleanPreviewsBackgroundJob;
 use OC\RichObjectStrings\Validator;
 use OC\Security\Bruteforce\Throttler;
@@ -827,6 +828,10 @@ class Server extends ServerContainer implements IServerContainer {
 			return new LockdownManager();
 		});
 
+		$this->registerService('OCSDiscoveryService', function (Server $c) {
+			return new DiscoveryService($c->getMemCacheFactory(), $c->getHTTPClientService());
+		});
+
 		$this->registerService(ICloudIdManager::class, function (Server $c) {
 			return new CloudIdManager();
 		});
@@ -869,6 +874,14 @@ class Server extends ServerContainer implements IServerContainer {
 	public function getEncryptionKeyStorage() {
 		return $this->query('EncryptionKeyStorage');
 	}
+
+	/**
+	 * @return \OC\OCS\DiscoveryService
+	 */
+	public function getOCSDiscoveryService() {
+		return $this->query('OCSDiscoveryService');
+	}
+
 
 	/**
 	 * The current request object holding all information about the request
