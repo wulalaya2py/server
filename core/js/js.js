@@ -1437,8 +1437,16 @@ function initCore() {
 		});
 	}
 
+	function setupContactsMenu() {
+		new OC.ContactsMenu({
+			el: $('#contactsmenu .menu'),
+			trigger: $('#contactsmenu .menutoggle')
+		});
+	}
+
 	setupMainMenu();
 	setupUserMenu();
+	setupContactsMenu();
 
 	// move triangle of apps dropdown to align with app name triangle
 	// 2 is the additional offset between the triangles

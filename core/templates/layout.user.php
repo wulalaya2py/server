@@ -166,13 +166,5 @@
 			</div>
 		</div>
 
-		<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" type="text/javascript">
-				$(function() {
-					new OC.ContactsMenu({
-						el: $('#contactsmenu .menu'),
-						trigger: $('#contactsmenu .menutoggle')
-					});
-				});
-		</script>
 	</body>
 </html>
