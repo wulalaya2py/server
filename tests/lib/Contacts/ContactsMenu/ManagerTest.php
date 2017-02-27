@@ -30,7 +30,6 @@ use OC\Contacts\ContactsMenu\Manager;
 use OCP\App\IAppManager;
 use OCP\Contacts\ContactsMenu\IEntry;
 use OCP\Contacts\ContactsMenu\IProvider;
-use OCP\IURLGenerator;
 use PHPUnit_Framework_MockObject_MockObject;
 use Test\TestCase;
 
@@ -45,9 +44,6 @@ class ManagerTest extends TestCase {
 	/** @var ActionProviderStore|PHPUnit_Framework_MockObject_MockObject */
 	private $actionProviderStore;
 
-	/** @var IURLGenerator|PHPUnit_Framework_MockObject_MockObject */
-	private $urlGenerator;
-
 	/** @var Manager */
 	private $manager;
 
@@ -57,9 +53,8 @@ class ManagerTest extends TestCase {
 		$this->contactsStore = $this->createMock(ContactsStore::class);
 		$this->actionProviderStore = $this->createMock(ActionProviderStore::class);
 		$this->appManager = $this->createMock(IAppManager::class);
-		$this->urlGenerator = $this->createMock(IURLGenerator::class);
 
-		$this->manager = new Manager($this->contactsStore, $this->actionProviderStore, $this->appManager, $this->urlGenerator);
+		$this->manager = new Manager($this->contactsStore, $this->actionProviderStore, $this->appManager);
 	}
 
 	private function generateTestEntries() {
@@ -92,14 +87,9 @@ class ManagerTest extends TestCase {
 			->method('isEnabledForUser')
 			->with($this->equalTo('contacts'), $user)
 			->willReturn(false);
-		$this->urlGenerator->expects($this->once())
-			->method('getAbsoluteURL')
-			->with($this->equalTo('/apps/contacts'))
-			->willReturn('cloud.example.com/apps/contacts');
 		$expected = [
 			'contacts' => array_slice($entries, 0, 25),
 			'contactsAppEnabled' => false,
-			'contactsAppURL' => 'cloud.example.com/apps/contacts',
 		];
 
 		$data = $this->manager->getEntries($user, $filter);

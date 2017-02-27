@@ -47,11 +47,10 @@ class Manager {
 	 * @param ActionProviderStore $actionProviderStore
 	 * @param IAppManager $appManager
 	 */
-	public function __construct(ContactsStore $store, ActionProviderStore $actionProviderStore, IAppManager $appManager, IURLGenerator $urlGenerator) {
+	public function __construct(ContactsStore $store, ActionProviderStore $actionProviderStore, IAppManager $appManager) {
 		$this->store = $store;
 		$this->actionProviderStore = $actionProviderStore;
 		$this->appManager = $appManager;
-		$this->urlGenerator = $urlGenerator;
 	}
 
 	/**
@@ -67,11 +66,9 @@ class Manager {
 		$this->processEntries($topEntries);
 
 		$contactsEnabled = $this->appManager->isEnabledForUser('contacts', $userId);
-		$contactsURL = $this->urlGenerator->getAbsoluteURL('/apps/contacts');
 		return [
 			'contacts' => $topEntries,
 			'contactsAppEnabled' => $contactsEnabled,
-			'contactsAppURL' => $contactsURL,
 		];
 	}
 

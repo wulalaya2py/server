@@ -273,7 +273,7 @@
 				searchTerm: searchTerm,
 				contacts: viewData.contacts,
 				contactsAppEnabled: viewData.contactsAppEnabled,
-				contactsAppURL: viewData.contactsAppURL
+				contactsAppURL: OC.generateUrl('/apps/contacts')
 			});
 		},
 
