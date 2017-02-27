@@ -71,12 +71,9 @@
 						autocomplete="off" tabindex="5">
 					<button class="icon-close-white" type="reset"></button>
 				</form>
-				<div>
-					<div id="contactsmenu-trigger"
-						 class="icon-contacts menutoggle"></div>
-						<div id="contactsmenu-menu"
-							 class="menu">
-						</div>
+				<div id="contactsmenu">
+					<div class="icon-contacts menutoggle"></div>
+					<div class="menu"></div>
 				</div>
 				<div id="settings">
 					<div id="expand" tabindex="6" role="link" class="menutoggle">
@@ -172,8 +169,8 @@
 		<script nonce="<?php p(\OC::$server->getContentSecurityPolicyNonceManager()->getNonce()) ?>" type="text/javascript">
 				$(function() {
 					new OC.ContactsMenu({
-						el: $('#contactsmenu-menu'),
-						trigger: $('#contactsmenu-trigger')
+						el: $('#contactsmenu .menu'),
+						trigger: $('#contactsmenu .menutoggle')
 					});
 				});
 		</script>

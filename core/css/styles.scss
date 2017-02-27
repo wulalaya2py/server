@@ -1092,93 +1092,94 @@ span.ui-icon {
 
 /* ---- CONTACTS MENU ---- */
 
-#contactsmenu-trigger {
-	background-size: 16px 16px;
-	cursor: pointer;
-	opacity: .7;
-}
-
-#contactsmenu-menu {
-	right: 70px;
-	width: 350px;
-
-	&::after {
-		right: 22px;
+#contactsmenu {
+	.menutoggle {
+		background-size: 16px 16px;
+		cursor: pointer;
+		opacity: .7;
 	}
 
-	div.emptycontent {
-		margin-top: 25vh;
-		margin-bottom: 5vh;
-		.icon-loading {
-			position: inherit;
-		}
-	}
+	.menu {
+		right: 70px;
+		width: 350px;
 
-	div.content {
-		max-height: 300px;
-		overflow-y: auto;
-
-		.footer {
-			text-align: center;
-			line-height: 50px;
-		}
-	}
-
-	div.contact {
-		display: flex;
-		position: relative;
-		align-items: center;
-		padding: 10px;
-		border-bottom: 1px solid #eeeeee;
-
-		:last-of-type {
-			border-bottom: none;
+		&::after {
+			right: 22px;
 		}
 
-		.avatar {
-			display: inline-block;
+		div.emptycontent {
+			margin-top: 25vh;
+			margin-bottom: 5vh;
+			.icon-loading {
+				position: inherit;
+			}
 		}
 
-		.body {
-			flex-grow: 1;
-			padding-left: 8px;
+		div.content {
+			max-height: 300px;
+			overflow-y: auto;
 
-			div {
-				position: relative;
-				width: 100%;
+			.footer {
+				text-align: center;
+				line-height: 50px;
+			}
+		}
+
+		div.contact {
+			display: flex;
+			position: relative;
+			align-items: center;
+			padding: 10px;
+			border-bottom: 1px solid #eeeeee;
+
+			:last-of-type {
+				border-bottom: none;
 			}
 
-			div.full-name, div.last-message {
-				/* TODO: don't use fixed width */
-				width: 220px;
-				overflow: hidden;
-				white-space: nowrap;
-				text-overflow: ellipsis;
+			.avatar {
+				display: inline-block;
 			}
-			div.last-message {
+
+			.body {
+				flex-grow: 1;
+				padding-left: 8px;
+
+				div {
+					position: relative;
+					width: 100%;
+				}
+
+				div.full-name, div.last-message {
+					/* TODO: don't use fixed width */
+					width: 220px;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
+				div.last-message {
+					opacity: 0.5;
+				}
+			}
+
+			.top-action, .other-actions {
+				width: 16px;
+				height: 16px;
+				padding: 8px;
 				opacity: 0.5;
+				cursor: pointer;
+
+				:hover {
+					opacity: 1;
+				}
 			}
-		}
 
-		.top-action, .other-actions {
-			width: 16px;
-			height: 16px;
-			padding: 8px;
-			opacity: 0.5;
-			cursor: pointer;
-
-			:hover {
-				opacity: 1;
+			/* actions menu */
+			.popovermenu {
+				right: 3px;
+				top: 53px;
 			}
-		}
-
-		/* actions menu */
-		.popovermenu {
-			right: 3px;
-			top: 53px;
 		}
 	}
-
 }
 
 #contactsmenu-search {
