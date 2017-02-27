@@ -61,11 +61,11 @@ class DetailsProviderTest extends TestCase {
 			->willReturn('e3a71614-c602-4eb5-9994-47eec551542b');
 		$this->urlGenerator->expects($this->once())
 			->method('getAbsoluteURL')
-			->with('/apps/contacts')
-			->willReturn('cloud.example.com/apps/contacts');
+			->with('/index.php/apps/contacts')
+			->willReturn('cloud.example.com/index.php/apps/contacts');
 		$this->actionFactory->expects($this->once())
 			->method('newLinkAction')
-			->with($this->equalTo('icon-info'), $this->equalTo('Details'), $this->equalTo('cloud.example.com/apps/contacts'))
+			->with($this->equalTo('icon-info'), $this->equalTo('Details'), $this->equalTo('cloud.example.com/index.php/apps/contacts'))
 			->willReturn($action);
 		$action->expects($this->once())
 			->method('setPriority')
