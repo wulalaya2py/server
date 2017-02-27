@@ -62,7 +62,7 @@ class DetailsProvider implements IProvider {
 
 		// TODO: unique contact URL to the contacts app
 		// TODO: l10n
-		$contactsUrl = $this->urlGenerator->getAbsoluteURL('/apps/contacts');
+		$contactsUrl = $this->urlGenerator->getAbsoluteURL('/index.php/apps/contacts');
 		$action = $this->actionFactory->newLinkAction('icon-info', 'Details', $contactsUrl);
 		$action->setPriority(0);
 		$entry->addAction($action);
