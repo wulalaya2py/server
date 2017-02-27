@@ -73,7 +73,7 @@
 				</form>
 				<div>
 					<div id="contactsmenu-trigger"
-						 class="icon-contacts"></div>
+						 class="icon-contacts menutoggle"></div>
 						<div id="contactsmenu-menu"
 							 class="menu">
 						</div>

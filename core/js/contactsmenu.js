@@ -262,7 +262,7 @@
 		},
 
 		/**
-		 * @param {Backbone.Collection} contacts
+		 * @param {object} viewData
 		 * @param {string} searchTerm
 		 * @returns {undefined}
 		 */
@@ -302,7 +302,7 @@
 			this.$('#contactsmenu-search').focus();
 
 			return this;
-		},
+		}
 
 	});
 
@@ -347,22 +347,25 @@
 				self._loadContacts(searchTerm);
 			});
 
-			this._$trigger.click(function(event) {
-				event.preventDefault();
-				self._toggleVisibility();
+			OC.registerMenu(this._$trigger, this.$el, function() {
+				console.log('TOGGLE');
+				self._toggleVisibility(true);
+			});
+			this.$el.on('beforeHide', function() {
+				self._toggleVisibility(false);
 			});
 		},
 
 		/**
+		 * @param {boolean} show
 		 * @returns {undefined}
 		 */
-		_toggleVisibility: function() {
-			if (!this._open) {
+		_toggleVisibility: function(show) {
+			if (show) {
 				this._loadContacts();
-				this.$el.show();
 				this._open = true;
 			} else {
-				this.$el.hide();
+				this.$el.html('');
 				this._open = false;
 			}
 		},
