@@ -307,7 +307,9 @@
 	});
 
 	/**
-	 * @param {array} options
+	 * @param {Object} options
+	 * @param {jQuery} options.el
+	 * @param {jQuery} options.trigger
 	 * @class ContactsMenu
 	 */
 	var ContactsMenu = function(options) {
@@ -331,7 +333,9 @@
 		_contactsPromise: undefined,
 
 		/**
-		 * @param {array} options
+		 * @param {Object} options
+		 * @param {jQuery} options.el - the element to render the menu in
+		 * @param {jQuery} options.trigger - the element to click on to open the menu
 		 * @returns {undefined}
 		 */
 		initialize: function(options) {
@@ -348,7 +352,6 @@
 			});
 
 			OC.registerMenu(this._$trigger, this.$el, function() {
-				console.log('TOGGLE');
 				self._toggleVisibility(true);
 			});
 			this.$el.on('beforeHide', function() {
@@ -377,11 +380,7 @@
 				data: {
 					filter: searchTerm
 				}
-			})).then(function(data) {
-				// Convert contact entries to Backbone collection
-				data.contacts = new ContactCollection(data.contacts);
-				return data;
-			});
+			}));
 		},
 
 		_loadContacts: function(searchTerm) {
@@ -398,8 +397,11 @@
 					term: searchTerm
 				}));
 			}
-			self._contactsPromise.then(function(contacts) {
-				self._view.showContacts(contacts, searchTerm);
+			self._contactsPromise.then(function(data) {
+				// Convert contact entries to Backbone collection
+				data.contacts = new ContactCollection(data.contacts);
+
+				self._view.showContacts(data, searchTerm);
 			}, function(e) {
 				self._view.showError();
 				console.error('could not load contacts', e);
@@ -407,7 +409,7 @@
 				// Delete promise, so that contacts are fetched again when the
 				// menu is opened the next time.
 				delete self._contactsPromise;
-			});
+			}).catch(console.error.bind(this));
 		}
 	};
 
