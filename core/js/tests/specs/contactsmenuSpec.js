@@ -24,19 +24,15 @@
 
 describe('Contacts menu', function() {
 	var $triggerEl,
-			$menuEl,
-			menu;
+		$menuEl,
+		menu;
 
 	/**
-	 * (chained) promises may be executed asynchronously, so we have to wait
-	 * a few ms to have the event loop flushed and the code executed.
-	 *
-	 * @callback cb
-	 * @param {Function} cb
-	 * @returns {undefined}
+	 * @private
+	 * @returns {Promise}
 	 */
-	function waitForPromises(cb) {
-		setTimeout(cb, 100);
+	function openMenu() {
+		return menu._toggleVisibility(true);
 	}
 
 	beforeEach(function(done) {
@@ -50,29 +46,19 @@ describe('Contacts menu', function() {
 		done();
 	});
 
-	afterEach(function(done) {
-		// Give promises some time to finish
-		waitForPromises(function() {
-			done();
-		});
-	});
-
-	it('shows a loading message while data is being fetched', function(done) {
+	it('shows a loading message while data is being fetched', function() {
 		fakeServer.respondWith('GET', OC.generateUrl('/contactsmenu/contacts'), [
 			200,
 			{},
 			''
 		]);
 
-		$triggerEl.click();
+		openMenu();
 
-		waitForPromises(function() {
-			expect($menuEl.html()).toContain('Loading your contacts …');
-			done();
-		});
+		expect($menuEl.html()).toContain('Loading your contacts …');
 	});
 
-	it('shows a error messgage when loading the contacts data fails', function(done) {
+	it('shows an error message when loading the contacts data fails', function(done) {
 		spyOn(console, 'error');
 		fakeServer.respondWith('GET', OC.generateUrl('/contactsmenu/contacts'), [
 			500,
@@ -80,18 +66,17 @@ describe('Contacts menu', function() {
 			''
 		]);
 
-		$triggerEl.click();
+		var opening = openMenu();
 
-		waitForPromises(function() {
-			expect($menuEl.html()).toContain('Loading your contacts …');
+		expect($menuEl.html()).toContain('Loading your contacts …');
+		fakeServer.respond();
 
-			fakeServer.respond();
-
-			waitForPromises(function() {
-				expect($menuEl.html()).toContain('Could not load your contacts.');
-				expect(console.error).toHaveBeenCalledTimes(1);
-				done();
-			});
+		opening.then(function() {
+			expect($menuEl.html()).toContain('Could not load your contacts.');
+			expect(console.error).toHaveBeenCalledTimes(1);
+			done();
+		}, function(e) {
+			done.fail(e);
 		});
 	});
 
@@ -146,18 +131,20 @@ describe('Contacts menu', function() {
 			contactsAppEnabled: true
 		}));
 
-		$triggerEl.click();
-
-		waitForPromises(function() {
+		openMenu().then(function() {
 			expect(menu._getContacts).toHaveBeenCalled();
 			expect($menuEl.html()).toContain('Acosta Lancaster');
 			expect($menuEl.html()).toContain('Adeline Snider');
 			expect($menuEl.html()).toContain('Show all contacts …');
+			expect($menuEl.html()).toContain('Show all contacts …');
 			done();
+		}, function(e) {
+			done.fail(e);
 		});
+
 	});
 
-	it('doesn\'t show a link to the contacts app if it\'s disabled', function(done) {
+	it('doesn\'t show a link to the contacts app if it\'s disabled', function() {
 		spyOn(menu, '_getContacts').and.returnValue(Promise.resolve({
 			contacts: [
 				{
@@ -186,12 +173,12 @@ describe('Contacts menu', function() {
 			contactsAppEnabled: true
 		}));
 
-		$triggerEl.click();
-
-		waitForPromises(function() {
+		openMenu().then(function() {
 			expect(menu._getContacts).toHaveBeenCalled();
 			expect($menuEl.html()).not.toContain('Show all contacts …');
 			done();
+		}, function(e) {
+			done.fail(e);
 		});
 	});
 

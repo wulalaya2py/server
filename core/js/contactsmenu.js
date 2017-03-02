@@ -26,43 +26,43 @@
 	'use strict';
 
 	var LOADING_TEMPLATE = ''
-			+ '<div class="emptycontent">'
-			+ '    <a class="icon-loading"></a>'
-			+ '    <h2>{{loadingText}}</h2>'
-			+ '</div>';
+		+ '<div class="emptycontent">'
+		+ '    <a class="icon-loading"></a>'
+		+ '    <h2>{{loadingText}}</h2>'
+		+ '</div>';
 	var ERROR_TEMPLATE = ''
-			+ '<div class="emptycontent">'
-			+ '    <h2>' + t('core', 'Could not load your contacts.') + '</h2>'
-			+ '</div>';
+		+ '<div class="emptycontent">'
+		+ '    <h2>' + t('core', 'Could not load your contacts.') + '</h2>'
+		+ '</div>';
 	var CONTENT_TEMPLATE = ''
-			+ '<input id="contactsmenu-search" type="search" placeholder="Search contacts …" value="{{searchTerm}}">'
-			+ '<div class="content">'
-			+ '    {{#unless contacts.length}}<div class="emptycontent">' + t('core', 'No contacts found.') + '</div>{{/unless}}'
-			+ '    <div id="contactsmenu-contacts"></div>'
-			+ '    {{#if contactsAppEnabled}}<div class="footer"><a href="{{contactsAppURL}}">' + t('core', 'Show all contacts …') + '</a></div>{{/if}}'
-			+ '</div>';
+		+ '<input id="contactsmenu-search" type="search" placeholder="Search contacts …" value="{{searchTerm}}">'
+		+ '<div class="content">'
+		+ '    {{#unless contacts.length}}<div class="emptycontent">' + t('core', 'No contacts found.') + '</div>{{/unless}}'
+		+ '    <div id="contactsmenu-contacts"></div>'
+		+ '    {{#if contactsAppEnabled}}<div class="footer"><a href="{{contactsAppURL}}">' + t('core', 'Show all contacts …') + '</a></div>{{/if}}'
+		+ '</div>';
 	var CONTACT_TEMPLATE = ''
-			+ '<div class="avatar"></div>'
-			+ '<div class="body">'
-			+ '    <div class="full-name">{{contact.fullName}}</div>'
-			+ '    <div class="last-message">{{contact.lastMessage}}</div>'
-			+ '</div>'
-			+ '<a class="top-action {{contact.topAction.icon}}" href="{{contact.topAction.hyperlink}}"></a>'
-			+ '{{#if contact.actions.length}}'
-			+ '    <span class="other-actions icon-more"></span>'
-			+ '    <div class="popovermenu">'
-			+ '        <ul>'
-			+ '            {{#each contact.actions}}'
-			+ '            <li>'
-			+ '                <a href="{{hyperlink}}">'
-			+ '                    <span class="{{icon}}"></span>'
-			+ '                    <span>{{title}}</span>'
-			+ '                </a>'
-			+ '            </li>'
-			+ '            {{/each}}'
-			+ '        </ul>'
-			+ '    </div>'
-			+ '{{/if}}';
+		+ '<div class="avatar"></div>'
+		+ '<div class="body">'
+		+ '    <div class="full-name">{{contact.fullName}}</div>'
+		+ '    <div class="last-message">{{contact.lastMessage}}</div>'
+		+ '</div>'
+		+ '<a class="top-action {{contact.topAction.icon}}" href="{{contact.topAction.hyperlink}}"></a>'
+		+ '{{#if contact.actions.length}}'
+		+ '    <span class="other-actions icon-more"></span>'
+		+ '    <div class="popovermenu">'
+		+ '        <ul>'
+		+ '            {{#each contact.actions}}'
+		+ '            <li>'
+		+ '                <a href="{{hyperlink}}">'
+		+ '                    <span class="{{icon}}"></span>'
+		+ '                    <span>{{title}}</span>'
+		+ '                </a>'
+		+ '            </li>'
+		+ '            {{/each}}'
+		+ '        </ul>'
+		+ '    </div>'
+		+ '{{/if}}';
 
 	/**
 	 * @class Contact
@@ -323,9 +323,6 @@
 		/** @type {jQuery} */
 		_$trigger: undefined,
 
-		/** @type {boolean} */
-		_open: false,
-
 		/** @type {ContactsMenuView} */
 		_view: undefined,
 
@@ -360,19 +357,24 @@
 		},
 
 		/**
+		 * @private
 		 * @param {boolean} show
-		 * @returns {undefined}
+		 * @returns {Promise}
 		 */
 		_toggleVisibility: function(show) {
 			if (show) {
-				this._loadContacts();
-				this._open = true;
+				return this._loadContacts();
 			} else {
 				this.$el.html('');
-				this._open = false;
+				return Promise.resolve();
 			}
 		},
 
+		/**
+		 * @private
+		 * @param {string|undefined} searchTerm
+		 * @returns {Promise}
+		 */
 		_getContacts: function(searchTerm) {
 			var url = OC.generateUrl('/contactsmenu/contacts');
 			return Promise.resolve($.ajax(url, {
@@ -383,6 +385,10 @@
 			}));
 		},
 
+		/**
+		 * @param {string|undefined} searchTerm
+		 * @returns {undefined}
+		 */
 		_loadContacts: function(searchTerm) {
 			var self = this;
 
@@ -397,7 +403,7 @@
 					term: searchTerm
 				}));
 			}
-			self._contactsPromise.then(function(data) {
+			return self._contactsPromise.then(function(data) {
 				// Convert contact entries to Backbone collection
 				data.contacts = new ContactCollection(data.contacts);
 
