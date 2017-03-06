@@ -56,6 +56,7 @@ class VersionCheck {
 	public function check() {
 		// Look up the cache - it is invalidated all 30 minutes
 		if (((int)$this->config->getAppValue('core', 'lastupdatedat') + 1800) > time()) {
+			\OC::$server->getLogger()->info('Returned cached response', ['app' => 'core_updater']);
 			return json_decode($this->config->getAppValue('core', 'lastupdateResult'), true);
 		}
 
@@ -81,22 +82,30 @@ class VersionCheck {
 		//fetch xml data from updater
 		$url = $updaterUrl . '?version=' . $versionString;
 
+		\OC::$server->getLogger()->info('Requesting '.$url, ['app' => 'core_updater']);
+
 		$tmp = [];
 		$xml = $this->getUrlContent($url);
+		\OC::$server->getLogger()->info('Response is '.json_encode($xml), ['app' => 'core_updater']);
+
 		if ($xml) {
 			$loadEntities = libxml_disable_entity_loader(true);
 			$data = @simplexml_load_string($xml);
 			libxml_disable_entity_loader($loadEntities);
 			if ($data !== false) {
+				\OC::$server->getLogger()->info('Found version '.(string)$data->version, ['app' => 'core_updater']);
+
 				$tmp['version'] = (string)$data->version;
 				$tmp['versionstring'] = (string)$data->versionstring;
 				$tmp['url'] = (string)$data->url;
 				$tmp['web'] = (string)$data->web;
 				$tmp['autoupdater'] = (string)$data->autoupdater;
 			} else {
+				\OC::$server->getLogger()->info('LibXML error', ['app' => 'core_updater']);
 				libxml_clear_errors();
 			}
 		} else {
+			\OC::$server->getLogger()->info('Empty XML response returned', ['app' => 'core_updater']);
 			$data = [];
 		}
 
