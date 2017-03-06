@@ -125,6 +125,8 @@ class VersionCheck {
 			$response = $client->get($url);
 			return $response->getBody();
 		} catch (\Exception $e) {
+			\OC::$server->getLogger()->info('getUrlContent Error: '.$e->getMessage(), ['app' => 'core_updater']);
+
 			return false;
 		}
 	}
