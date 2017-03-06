@@ -1177,8 +1177,11 @@ span.ui-icon {
 
 		/* actions menu */
 		.menu {
+			top: 47px;
+			margin-right: 3px;
+		}
+		.popovermenu::after {
 			right: 3px;
-			top: 53px;
 		}
 	}
 }
