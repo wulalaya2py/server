@@ -54,7 +54,7 @@
 			+ '    <div class="last-message">{{contact.lastMessage}}</div>'
 			+ '</div>'
 			+ '<a class="top-action {{contact.topAction.icon}}" href="{{contact.topAction.hyperlink}}"></a>'
-			+ '{{#if contact.actions.length}}'
+			+ '{{#if contact.hasManyActions}}'
 			+ '    <span class="other-actions icon-more"></span>'
 			+ '    <div class="menu popovermenu">'
 			+ '        <ul>'
@@ -68,6 +68,9 @@
 			+ '            {{/each}}'
 			+ '        </ul>'
 			+ '    </div>'
+			+ '{{/if}}'
+			+ '{{#if contact.hasTwoActions}}'
+			+ '<a class="second-action {{contact.secondAction.icon}}" href="{{contact.secondAction.hyperlink}}"></a>'
 			+ '{{/if}}';
 
 	/**
@@ -77,7 +80,22 @@
 		defaults: {
 			fullName: '',
 			lastMessage: '',
-			actions: []
+			actions: [],
+			hasTwoActions: false,
+			hasManyActions: false
+		},
+
+		/**
+		 * @returns {undefined}
+		 */
+		initialize: function() {
+			// Add needed property for easier template rendering
+			if (this.get('actions').length === 1) {
+				this.set('hasTwoActions', true);
+				this.set('secondAction', this.get('actions')[0]);
+			} else {
+				this.set('hasManyActions', true);
+			}
 		}
 	});
 
