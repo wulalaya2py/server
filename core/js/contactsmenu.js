@@ -30,7 +30,12 @@
 			+ '<div class="content">'
 			+ '</div>';
 	var CONTACTS_LIST_TEMPLATE = ''
-			+ '{{#unless contacts.length}}<div class="emptycontent">' + t('core', 'No contacts found.') + '</div>{{/unless}}'
+			+ '{{#unless contacts.length}}'
+			+ '<div class="emptycontent">'
+			+ '    <a class="icon-search"></a>'
+			+ '    <h2>' + t('core', 'No contacts found.') + '</h2>'
+			+ '</div>'
+			+ '{{/unless}}'
 			+ '<div id="contactsmenu-contacts"></div>'
 			+ '{{#if contactsAppEnabled}}<div class="footer"><a href="{{contactsAppURL}}">' + t('core', 'Show all contacts …') + '</a></div>{{/if}}';
 	var LOADING_TEMPLATE = ''
