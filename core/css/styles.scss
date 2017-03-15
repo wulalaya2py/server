@@ -1109,7 +1109,7 @@ span.ui-icon {
 		right: 35px;
 	}
 
-	div.emptycontent {
+	.emptycontent {
 		margin-top: 9vh !important;
 		margin-bottom: 5vh;
 		.icon-loading {
@@ -1120,7 +1120,7 @@ span.ui-icon {
 		}
 	}
 
-	div.content {
+	.content {
 		/* show ~4.5 entries */
 		max-height: 238px;
 		overflow-y: auto;
@@ -1137,7 +1137,7 @@ span.ui-icon {
 		}
 	}
 
-	div.contact {
+	.contact {
 		display: flex;
 		position: relative;
 		align-items: center;
@@ -1161,14 +1161,14 @@ span.ui-icon {
 				width: 100%;
 			}
 
-			div.full-name, div.last-message {
+			.full-name, .last-message {
 				/* TODO: don't use fixed width */
 				width: 220px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
-			div.last-message {
+			.last-message {
 				opacity: 0.5;
 			}
 		}
@@ -1177,7 +1177,7 @@ span.ui-icon {
 			width: 16px;
 			height: 16px;
 			padding: 8px;
-			opacity: 0.5;
+			opacity: .5;
 			cursor: pointer;
 
 			:hover {
