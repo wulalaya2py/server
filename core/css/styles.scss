@@ -1102,16 +1102,18 @@ span.ui-icon {
 }
 
 #contactsmenu > .menu {
-	right: 70px;
+	/* show ~4.5 entries */
+	height: 278px;
 	width: 350px;
+	right: 70px;
 
 	&::after {
 		right: 35px;
 	}
 
 	.emptycontent {
-		margin-top: 9vh !important;
-		margin-bottom: 5vh;
+		margin-top: 5vh !important;
+		margin-bottom: 2vh;
 		.icon-loading {
 			position: inherit;
 		}
@@ -1121,8 +1123,7 @@ span.ui-icon {
 	}
 
 	.content {
-		/* show ~4.5 entries */
-		max-height: 238px;
+		max-height: calc(100% - 50px);
 		overflow-y: auto;
 
 		.footer {
@@ -1141,7 +1142,7 @@ span.ui-icon {
 		display: flex;
 		position: relative;
 		align-items: center;
-		padding: 10px;
+		padding: 3px 3px 3px 10px;
 		border-bottom: 1px solid #eeeeee;
 
 		:last-of-type {
@@ -1163,20 +1164,20 @@ span.ui-icon {
 
 			.full-name, .last-message {
 				/* TODO: don't use fixed width */
-				width: 220px;
+				max-width: 204px;
 				overflow: hidden;
 				white-space: nowrap;
 				text-overflow: ellipsis;
 			}
 			.last-message {
-				opacity: 0.5;
+				opacity: .5;
 			}
 		}
 
 		.top-action, .second-action, .other-actions {
 			width: 16px;
 			height: 16px;
-			padding: 8px;
+			padding: 14px;
 			opacity: .5;
 			cursor: pointer;
 
@@ -1191,7 +1192,7 @@ span.ui-icon {
 			margin-right: 13px;
 		}
 		.popovermenu::after {
-			right: 3px;
+			right: 2px;
 		}
 	}
 }

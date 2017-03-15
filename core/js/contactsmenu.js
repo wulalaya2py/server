@@ -33,7 +33,7 @@
 			+ '{{#unless contacts.length}}'
 			+ '<div class="emptycontent">'
 			+ '    <a class="icon-search"></a>'
-			+ '    <h2>' + t('core', 'No contacts found.') + '</h2>'
+			+ '    <h2>' + t('core', 'No contacts found') + '</h2>'
 			+ '</div>'
 			+ '{{/unless}}'
 			+ '<div id="contactsmenu-contacts"></div>'
